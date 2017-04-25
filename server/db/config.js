@@ -29,9 +29,11 @@ module.exports = (db) => {
       // Create users table
       return db.queryAsync(`
         CREATE TABLE IF NOT EXISTS users (
-          user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+          id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
           username VARCHAR(50) NOT NULL,
-          password CHAR(41) NOT NULL
+          password CHAR(41) NOT NULL,
+          timestamp TIMESTAMP,
+          UNIQUE (username)
         );`);
     })
   /************************************************************/

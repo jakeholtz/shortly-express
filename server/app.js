@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const Auth = require('./middleware/auth');
 const models = require('./models');
 
+
 const app = express();
 
 app.set('views', `${__dirname}/views`);
@@ -79,70 +80,59 @@ app.post('/links',
 /************************************************************/
 // Write your authentication routes here
 /************************************************************/
-app.post('/signup', function (req, res, next) {
+// app.post('/signup',(req, res, next) => {
+//   // console.log(req.body.username)
+//   console.log(JSON.stringify(models))
+//   // modelMethods.create(req.body.username);
+// });
+app.post('/signup', (req, res, next) => {
   var username = req.body.username;
   var password = req.body.password;
-    if (!models.Links.isValidUrl(url)) {
-      // send back a 404 if link is not valid
-      return res.sendStatus(404);
-    }
+  //
+  console.log(models.Users);
 
-    return models.Links.get({ url })
-      .then(link => {
-        if (link) {
-          throw link;
-        }
-        return models.Links.getUrlTitle(url);
-      })
-      .then(title => {
-        return models.Links.create({
-          url: url,
-          title: title,
-          baseUrl: req.headers.origin
-        });
-      })
-      .then(results => {
-        return models.Links.get({ id: results.insertId });
-      })
-      .then(link => {
-        throw link;
-      })
-      .error(error => {
-        res.status(500).send(error);
-      })
-      .catch(link => {
-        res.status(200).send(link);
-      });
-  });
+});
+
+  // if (!models.Links.isValidUrl(url)) {
+  //   // send back a 404 if link is not valid
+  //   return res.sendStatus(404);
+  // }
+
+  // return models.Links.get({ url })
+  //   .then(link => {
+  //     if (link) {
+  //       throw link;
+  //     }
+  //     return models.Links.getUrlTitle(url);
+  //   })
+  //   .then(title => {
+  //     return models.Links.create({
+  //       url: url,
+  //       title: title,
+  //       baseUrl: req.headers.origin
+  //     });
+  //   })
+  //   .then(results => {
+  //     return models.Links.get({ id: results.insertId });
+  //   })
+  //   .then(link => {
+  //     throw link;
+  //   })
+  //   .error(error => {
+  //     res.status(500).send(error);
+  //   })
+  //   .catch(link => {
+  //     res.status(200).send(link);
+  //   });
+
+
   // get username password etc
   // via the model send it to the db
 
-
-  //   var user = {
-  //      Name: req.body.name,
-  //      Email: req.body.email,
-  //      Pass: req.body.pass,
-  //      Num: req.body.num
-  //  };
-  //  var UserReg = mongoose.model('UserReg', RegSchema);
-  //  UserReg.create(user, function(err, newUser) {
-  //     if(err) return next(err);
-  //     req.session.user = email;
-  //     return res.send('Logged In!');
-  //  });
-});
-
 app.post('/login', function (req, res, next) {
-  //  var email = req.body.email;
-  //  var pass = req.body.pass;
-   //
-  //  User.findOne({Email: email, Pass: pass}, function(err, user) {
-  //     if(err) return next(err);
-  //     if(!user) return res.send('Not logged in!');
-   //
-  //     req.session.user = email;
-  //     return res.send('Logged In!');
-  //  });
+    var username = req.body.username;
+    var password = req.body.password;
+    model.create(username);
 });
 
 // app.get('/logout', function (req, res) {
