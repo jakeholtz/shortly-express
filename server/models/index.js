@@ -1,3 +1,4 @@
 module.exports.Links = require('./link');
 module.exports.Clicks = require('./click');
-module.exports.Model = require('./model');
+module.exports.Users = require('./user');
+// module.exports.Model = require('./model');

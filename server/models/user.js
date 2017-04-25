@@ -1,16 +1,20 @@
 const utils = require('../lib/hashUtils');
+const crypto = require('crypto');
 const Model = require('./model');
 
 
-// Write you user database model methods he
-class Users extends Model ({
+class Users extends Model {
   constructor() {
     super('users');
   }
-});
 
-// User.prototype.add = (username, password) => {
-//
-// };
-//
+  create(entry) {
+    let newPassword = crypto.createHash('sha1');
+    newPassword.update(entry.password);
+    entry.password = newPassword.digest('hex').slice(0, 5);
+    return super.create.call(this, entry);
+  }
+
+};
+
 module.exports = new Users();
