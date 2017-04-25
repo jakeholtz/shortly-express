@@ -81,38 +81,56 @@ app.post('/links',
 // Write your authentication routes here
 /************************************************************/
 
-app.post('/signup', (req, res, next) => {
-  var username = req.body.username;
-  var password = req.body.password;
-
-  models.Users.get({username: username})
-   .then(username => {
-    if (username) {
-      res.redirect('/signup');
-    }
-    return username;
-  })
-  .then(
-    username => {
-      return models.Users.create({
-        username: username,
-        password: password
-      });
-   })
-  .then(
-    username => {
-      res.redirect('/');
-    });
-  // .error(error => {
-  //   res.status(500).send(error);
-  // })
-  // .catch(link => {
-  //   res.status(200).send(link);
-  // });
+app.get('/login', (req, res) => {
+  res.render('login');
 });
 
-app.post('/login', function (req, res, next) {
- null;
+app.post('login', (req, res, next) => {
+  let username = req.body.username;
+  let password = req.body.password;
+
+  return models.User.get({username})
+    .then(user => {
+      if(!user || models.compare(password, user.password, user.salt)) {
+        throw new Error('Username and password do not match');
+      }
+      // return models.Sessions.update({hash:req.session.hash}, {user_id: user.id})
+    })
+    .then(() => {
+      res.redirect('/');
+    })
+    .error(error => {
+      res.status(500).send(error);
+    })
+    .catch(() => {
+      res.redirect('/login')
+    });
+});
+
+app.get('/signup', (req, res) => {
+  res.render('signup');
+});
+
+app.post('/signup', (req, res, next) => {
+  let username = req.body.username;
+  let password = req.body.password;
+
+  return models.Users.get({username})
+    .then(user => {
+      if( user ) {
+        throw user;
+      }
+      return models.Users.create({username, password});
+    })
+    .then(results => {
+      res.redirect('/');
+    })
+    .error(error => {
+      res.status(500).send(error);
+    })
+    .catch(user => {
+      res.redirect('/signup');
+    });
 });
 
 
