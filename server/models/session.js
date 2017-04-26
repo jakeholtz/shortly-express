@@ -1,5 +1,6 @@
 const utils = require('../lib/hashUtils');
 const Model = require('./model');
+
 const Users = require('./user');
 // Write you session database model methods here
 
@@ -12,9 +13,9 @@ class Sessions extends Model {
     return !!session.username;
   }
 
-  // compare(agent, hash, salt) {
-  //   return utils.compareHash(agent, hash, salt);
-  // }
+  compare(agent, hash, salt) {
+    return utils.compareHash(agent, hash, salt);
+  }
 
   get(options) {
     return super.get.call(this, options)

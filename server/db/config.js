@@ -25,31 +25,29 @@ module.exports = (db) => {
           timestamp TIMESTAMP
         );`);
     })
-    .then(() => {
-      // Create users table
+
+  // Create users table
+  .then(() => {
       return db.queryAsync(`
         CREATE TABLE IF NOT EXISTS users (
           id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-          username VARCHAR(50) NOT NULL,
-          password CHAR(41) NOT NULL,
-          timestamp TIMESTAMP,
-          UNIQUE (username)
+          username VARCHAR(40) UNIQUE,
+          password VARCHAR(64),
+          salt VARCHAR(64),
+          timestamp TIMESTAMP
         );`);
     })
+    // Create sessions table
     .then(() => {
-      // Create sessions table
       return db.queryAsync(`
         CREATE TABLE IF NOT EXISTS sessions (
           id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-          hash VARCHAR(50),
-          salt VARCHAR(50),
+          hash VARCHAR(64),
+          salt VARCHAR(64),
           user_id INT,
           timestamp TIMESTAMP
         )`);
     })
-  /************************************************************/
-  /*          Add additional schema queries here              */
-  /************************************************************/
 
     .error(err => {
       console.log(err);
