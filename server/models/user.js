@@ -8,6 +8,10 @@ class Users extends Model {
     super('users');
   }
 
+  // compare(attempted, password, salt) {
+  //   return utils.compareHash(attempted, password, salt);
+  // }
+
   create(entry) {
     let newPassword = crypto.createHash('sha1');
     newPassword.update(entry.password);
